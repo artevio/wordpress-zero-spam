@@ -157,8 +157,48 @@ class ZeroSpam_Admin extends ZeroSpam_Plugin {
     if ( zerospam_plugin_check( 'wpf' ) ) {
       add_settings_field( 'wpf_support', __( 'WPForms Support', 'zerospam' ), array( $this, 'field_wpf_support' ), 'zerospam_general_settings', 'section_general' );
     }
+    
+    // Formidable Forms support.
+    if ( zerospam_plugin_check( 'ff' ) ) {
+      add_settings_field( 'ff_support', __( 'Formidable Forms', 'zerospam' ), array( $this, 'field_ff_support' ), 'zerospam_general_settings', 'section_general' );
+
+      if ( ! empty( $this->settings['ff_support'] ) && $this->settings['ff_support'] ) {
+        add_settings_field( 'spammer_msg_ff', __( 'Formidable Forms Spam Message', 'zerospam' ), array( $this, 'field_spammer_msg_ff' ), 'zerospam_general_settings', 'section_messages' );
+      }
+    }
   }
 
+  /**
+   * Formidable Forms support option.
+   *
+   * Field callback, renders a checkbox input, note the name and value.
+   *
+   * @since 2.0.0
+   */
+  public function field_ff_support() {
+    ?>
+    <label for="ff_support">
+      <input type="checkbox" id="ff_support" name="zerospam_general_settings[ff_support]" value="1" <?php if( isset( $this->settings['ff_support'] ) ) : checked( $this->settings['ff_support'] ); endif; ?> /> <?php echo __( 'Enabled', 'zerospam' ); ?>
+    </label>
+    <?php
+  }
+
+  /**
+   * Formidable Forms spam message option.
+   *
+   * Field callback, renders a text input, note the name and value.
+   *
+   * @since 2.0.0
+   */
+  public function field_spammer_msg_ff() {
+    ?>
+    <label for="spammer_msg_ff">
+      <input type="text" class="regular-text" name="zerospam_general_settings[spammer_msg_ff]" value="<?php echo esc_attr( $this->settings['spammer_msg_ff'] ); ?>">
+      <p class="description"><?php echo __( 'Enter a short message to display when a spam registration has been detected (HTML allowed).', 'zerospam' ); ?></p>
+    </label>
+    <?php
+  }
+  
   /**
    * WPForms support option.
    *
