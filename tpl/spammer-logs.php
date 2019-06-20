@@ -112,6 +112,16 @@ if ( ! defined( 'ABSPATH' ) ) {
             <b><?php echo number_format( $all_spam['wpf_spam'], 0 ); ?></b>
           </div>
           <?php endif; ?>
+		
+	  <?php if (
+            zerospam_plugin_check( 'ff' ) &&
+            ! empty( $this->settings['ff_support'] ) && $this->settings['ff_support']
+          ): ?>
+          <div class="zero-spam__stat">
+            <?php echo __( 'Formidable Forms', 'zerospam' ); ?>
+            <b><?php echo number_format( $all_spam['ff_spam'], 0 ); ?></b>
+          </div>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -345,6 +355,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                   if ( zerospam_plugin_check( 'wpf' ) && ! empty( $this->settings['wpf_support'] ) && $this->settings['wpf_support'] ) : ?>
                   'wpf_spam' : <?php echo $val; ?>,
                   <?php endif; break;
+		case 'ff_spam':
+                  if ( zerospam_plugin_check( 'ff' ) && ! empty( $this->settings['ff_support'] ) && $this->settings['ff_support'] ): ?>
+                  'ff_spam' : <?php echo $val; ?>,
+                  <?php endif; break;
                 default: if ( $key != 'data' ) : ?>
                   '<?php echo $key; ?>': <?php echo $val; ?>,
               <?php endif; endswitch;
@@ -376,6 +390,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                   <?php endif; break;
                 case 'wpf_spam': if ( zerospam_plugin_check( 'wpf' ) && ! empty( $this->settings['wpf_support'] ) && $this->settings['wpf_support'] ) : ?>
                   'wpf_spam',
+                  <?php endif; break;
+		case 'ff_spam': if ( zerospam_plugin_check( 'ff' ) && ! empty( $this->settings['ff_support'] ) && $this->settings['ff_support'] ): ?>
+                  'ff_spam',
                   <?php endif; break;
                 default: if ( $key != 'data' ) : ?>
                   '<?php echo $key; ?>',
@@ -409,6 +426,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                 case 'wpf_spam': if ( zerospam_plugin_check( 'wpf' ) && ! empty( $this->settings['wpf_support'] ) && $this->settings['wpf_support'] ) : ?>
                   '<?php echo __( 'WPForms', 'zerospam' ); ?>',
                   <?php endif; break;
+		case 'ff_spam': if ( zerospam_plugin_check( 'ff' ) && ! empty( $this->settings['ff_support'] ) && $this->settings['ff_support'] ): ?>
+                  '<?php echo __( 'Formidable Forms', 'zerospam' ); ?>',
+                  <?php endif; break;
                 default: if ( $key != 'data' ) : ?>
                   '<?php echo $key; ?>',
               <?php endif; endswitch;
@@ -438,6 +458,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php endif; break;
               case 'wpf_spam': if ( zerospam_plugin_check( 'wpf' ) && ! empty( $this->settings['wpf_support'] ) && $this->settings['wpf_support'] ) : ?>
                 '#e27730',
+                <?php endif; break;
+	      case 'ff_spam': if ( zerospam_plugin_check( 'ff' ) && ! empty( $this->settings['ff_support'] ) && $this->settings['ff_support'] ): ?>
+                '#fddb5a',
                 <?php endif; break;
               default: if ( $key != 'data' ) : ?>
                 '#c2c2c2',
