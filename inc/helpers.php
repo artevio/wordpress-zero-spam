@@ -98,6 +98,9 @@ function zerospam_log_spam( $key, $url = false ) {
     case 'wpf':
       $key = 7;
       break;
+    case 'ff':
+      $key = 8;
+      break;
   }
 
   $wpdb->insert( $table_name, array(
@@ -271,6 +274,7 @@ function zerospam_parse_spam_ary( $ary ) {
     'bp_registration_spam' => 0,
     'nf_spam'              => 0,
     'wpf_spam'             => 0,
+    'ff_spam'              => 0,
     'unique_spammers'      => array(),
     'by_day'               => array(
       'Sun' => 0,
@@ -298,6 +302,7 @@ function zerospam_parse_spam_ary( $ary ) {
         'bp_registration_spam' => 0,
         'nf_spam'              => 0,
         'wpf_spam'             => 0,
+        'ff_spam'              => 0,
       );
     }
 
@@ -351,6 +356,11 @@ function zerospam_parse_spam_ary( $ary ) {
       // WPForms spam.
       $return['by_date'][ substr( $obj->date, 0, 10 ) ]['wpf_spam']++;
       $return['wpf_spam']++;
+    } elseif ( 8 == $obj->type ) {
+
+      // Formidable Forms spam.
+      $return['by_date'][ substr( $obj->date, 0, 10 ) ]['ff_spam']++;
+      $return['ff_spam']++;
     } else {
       if ( empty( $return['by_date'][ substr( $obj->date, 0, 10 ) ][ $obj->type ] ) ) {
         $return['by_date'][ substr( $obj->date, 0, 10 ) ][ $obj->type ] = 0;
@@ -385,6 +395,7 @@ function zerospam_all_spam_ary() {
     'gf_spam'              => 0,
     'bp_registration_spam' => 0,
     'nf_spam'              => 0,
+    'ff_spam'              => 0,
     'unique_spammers'      => array(),
     'by_day'               => array(
       'Sun' => 0,
@@ -416,6 +427,7 @@ function zerospam_all_spam_ary() {
     4                => 'gf_spam',
     5                => 'bp_registration_spam',
     'nf'             => 'nf_spam',
+    8                => 'ff_spam',
     'Undefined Form' => 'undefined_form',
   );
 
@@ -473,6 +485,7 @@ function zerospam_all_spam_ary() {
             'gf_spam'              => 0,
             'bp_registration_spam' => 0,
             'nf_spam'              => 0,
+            'ff_spam'              => 0
         );
       }
       $return['by_date'][ $ary['day'] ][ $type_map[ $ary['type'] ] ] = $ary['num'];
@@ -603,6 +616,11 @@ function zerospam_plugin_check( $plugin ) {
       break;
     case 'wpf':
       if ( is_plugin_active( 'wpforms/wpforms.php' ) || is_plugin_active( 'wpforms-lite/wpforms.php' ) ) {
+        $result = true;
+      }
+      break;
+    case 'ff':
+      if ( is_plugin_active( 'formidable/formidable.php' ) ) {
         $result = true;
       }
       break;
