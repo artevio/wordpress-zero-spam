@@ -118,5 +118,14 @@ if (
   $plugin['wpf'] = new ZeroSpam_WPForms();
 }
 
+// Formidable Forms support.
+if (
+  zerospam_plugin_check( 'ff' ) &&
+  ! empty( $plugin->settings['ff_support'] ) && $plugin->settings['ff_support']
+)
+{
+  $plugin['ff'] = new ZeroSpam_FormidableForms();
+}
+
 // Initialize the plugin.
 $plugin->run();
