@@ -38,6 +38,7 @@ class ZeroSpam_Plugin implements ArrayAccess
     'gf_support'                  => 1,
     'nf_support'                  => 1,
     'wpf_support'                 => 1,
+    'ff_support'                  => 1,
     'comment_support'             => 1,
   );
 
